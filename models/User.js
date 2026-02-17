@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema(
     brideName: String,
     groomName: String,
     dateWedding: Date,
+    coverImage: String,
   },
   { timestamps: true },
 );
