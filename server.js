@@ -11,6 +11,7 @@ import chatRoutes from "./routes/chatRoutes.js";
 import connectDB from "./config/db.js";
 import bestmanRoutes from "./routes/bestmanRoutes.js";
 import maidOfHonorRoutes from "./routes/maidOfHonorRoutes.js";
+import budgetRoutes from "./routes/budgetRoutes.js";
 
 dotenv.config();
 
@@ -31,6 +32,7 @@ app.use("/api/selections", selectionRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/bestman", bestmanRoutes);
 app.use("/maidofhonor", maidOfHonorRoutes);
+app.use("/api/budget", budgetRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

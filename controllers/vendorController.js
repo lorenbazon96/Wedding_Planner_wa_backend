@@ -2,7 +2,7 @@ import Vendor from "../models/Vendor.js";
 
 export const getVendors = async (req, res) => {
   try {
-    const filter = req.query.category ? { category: req.query.category } : {};
+    const filter = req.query.category ? { category: { $in: [req.query.category] } } : {};
     const vendors = await Vendor.find(filter);
     res.json(vendors);
   } catch (err) {
