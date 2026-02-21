@@ -12,6 +12,9 @@ import connectDB from "./config/db.js";
 import bestmanRoutes from "./routes/bestmanRoutes.js";
 import maidOfHonorRoutes from "./routes/maidOfHonorRoutes.js";
 import budgetRoutes from "./routes/budgetRoutes.js";
+import guestRoutes from "./routes/guestRoutes.js";
+import chatListRoutes from "./routes/chatListRoutes.js";
+import noteRoutes from "./routes/noteRoutes.js";
 
 dotenv.config();
 
@@ -33,6 +36,9 @@ app.use("/api/chat", chatRoutes);
 app.use("/bestman", bestmanRoutes);
 app.use("/maidofhonor", maidOfHonorRoutes);
 app.use("/api/budget", budgetRoutes);
+app.use("/api/guests", guestRoutes);
+app.use("/api/chats", chatListRoutes);
+app.use("/api/notes", noteRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
