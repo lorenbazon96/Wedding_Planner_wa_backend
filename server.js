@@ -15,6 +15,16 @@ import budgetRoutes from "./routes/budgetRoutes.js";
 import guestRoutes from "./routes/guestRoutes.js";
 import chatListRoutes from "./routes/chatListRoutes.js";
 import noteRoutes from "./routes/noteRoutes.js";
+import lapelRoutes from "./routes/lapelRoutes.js";
+import churchDateTimeRoutes from "./routes/churchDateTimeRoutes.js";
+import engagementCourseRoutes from "./routes/engagementCourseRoutes.js";
+import priestMeetingRoutes from "./routes/priestMeetingRoutes.js";
+import readersRoutes from "./routes/readersRoutes.js";
+import documentsRoutes from "./routes/documentsRoutes.js";
+import confettiRoutes from "./routes/confettiRoutes.js";
+import menuRoutes from "./routes/menuRoutes.js";
+import danceRoutes from "./routes/danceRoutes.js";
+import theDayRoutes from "./routes/theDayRoutes.js";
 
 dotenv.config();
 
@@ -39,6 +49,16 @@ app.use("/api/budget", budgetRoutes);
 app.use("/api/guests", guestRoutes);
 app.use("/api/chats", chatListRoutes);
 app.use("/api/notes", noteRoutes);
+app.use("/api/lapels", lapelRoutes);
+app.use("/api/church-datetime", churchDateTimeRoutes);
+app.use("/api/engagement-course", engagementCourseRoutes);
+app.use("/api/priest-meeting", priestMeetingRoutes);
+app.use("/api/readers", readersRoutes);
+app.use("/api/documents", documentsRoutes);
+app.use("/api/confetti", confettiRoutes);
+app.use("/api/menu", menuRoutes);
+app.use("/api/dance", danceRoutes);
+app.use("/api/the-day", theDayRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
