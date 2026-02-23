@@ -10,6 +10,8 @@ const userSchema = new mongoose.Schema(
     groomName: String,
     dateWedding: Date,
     coverImage: String,
+    role: { type: String, enum: ["user", "vendor"], default: "user" },
+    vendorId: { type: mongoose.Schema.Types.ObjectId, ref: "Vendor" },
   },
   { timestamps: true },
 );

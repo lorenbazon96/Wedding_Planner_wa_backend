@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import Vendor from "../models/Vendor.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -7,7 +8,7 @@ const generateToken = (id) => {
 };
 
 export const register = async (req, res) => {
-  const { username, email, password, brideName, groomName, dateWedding } =
+  const { username, email, password, brideName, groomName, dateWedding, role, vendorName, vendorCategory } =
     req.body;
 
   const userExists = await User.findOne({ email });
@@ -17,19 +18,34 @@ export const register = async (req, res) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const user = await User.create({
+  const userData = {
     username,
     email,
     password: hashedPassword,
-    brideName,
-    groomName,
-    dateWedding,
-  });
+    role: role || "user",
+  };
+
+  if (role === "vendor") {
+    const vendor = await Vendor.create({
+      name: vendorName || username,
+      category: vendorCategory || [],
+      email,
+    });
+    userData.vendorId = vendor._id;
+  } else {
+    userData.brideName = brideName;
+    userData.groomName = groomName;
+    userData.dateWedding = dateWedding;
+  }
+
+  const user = await User.create(userData);
 
   res.status(201).json({
     _id: user._id,
     username: user.username,
     email: user.email,
+    role: user.role,
+    vendorId: user.vendorId,
     token: generateToken(user._id),
   });
 };
@@ -95,9 +111,67 @@ export const login = async (req, res) => {
       _id: user._id,
       username: user.username,
       email: user.email,
+      role: user.role,
+      vendorId: user.vendorId,
       token: generateToken(user._id),
     });
   } else {
     res.status(401).json({ message: "Invalid credentials" });
   }
+};
+
+export const deleteAccount = async (req, res) => {
+  const user = await User.findById(req.user.id);
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  if (user.role === "vendor" && user.vendorId) {
+    await Vendor.findByIdAndDelete(user.vendorId);
+  }
+
+  await User.findByIdAndDelete(req.user.id);
+
+  res.json({ message: "Account deleted" });
+};
+
+export const getVendorProfile = async (req, res) => {
+  const user = await User.findById(req.user.id);
+  if (!user || user.role !== "vendor" || !user.vendorId) {
+    return res.status(404).json({ message: "Vendor profile not found" });
+  }
+
+  const vendor = await Vendor.findById(user.vendorId);
+  if (!vendor) {
+    return res.status(404).json({ message: "Vendor not found" });
+  }
+
+  res.json(vendor);
+};
+
+export const updateVendorProfile = async (req, res) => {
+  const user = await User.findById(req.user.id);
+  if (!user || user.role !== "vendor" || !user.vendorId) {
+    return res.status(404).json({ message: "Vendor profile not found" });
+  }
+
+  const vendor = await Vendor.findById(user.vendorId);
+  if (!vendor) {
+    return res.status(404).json({ message: "Vendor not found" });
+  }
+
+  const { name, category, address, phone, email, workingHours, website, instagram, gallery } = req.body;
+
+  if (name !== undefined) vendor.name = name;
+  if (category !== undefined) vendor.category = category;
+  if (address !== undefined) vendor.address = address;
+  if (phone !== undefined) vendor.phone = phone;
+  if (email !== undefined) vendor.email = email;
+  if (workingHours !== undefined) vendor.workingHours = workingHours;
+  if (website !== undefined) vendor.website = website;
+  if (instagram !== undefined) vendor.instagram = instagram;
+  if (gallery !== undefined) vendor.gallery = gallery;
+
+  const updated = await vendor.save();
+  res.json(updated);
 };
