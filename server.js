@@ -32,7 +32,13 @@ connectDB();
 const app = express();
 
 app.use(express.json({ limit: "10mb" }));
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://weddingplanner-me4jbk89g-lorens-projects-ae807b2d.vercel.app"
+  ],
+  credentials: true
+}));
 
 mongoose
   .connect(process.env.MONGO_URI)
