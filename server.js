@@ -10,7 +10,7 @@ import selectionRoutes from "./routes/selectionRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
 import connectDB from "./config/db.js";
 import bestmanRoutes from "./routes/bestmanRoutes.js";
-import maidofhonorRoutes from "./routes/maidOfHonorRoutes.js";
+import maidOfHonorRoutes from "./routes/maidofhonorRoutes.js";
 import budgetRoutes from "./routes/budgetRoutes.js";
 import guestRoutes from "./routes/guestRoutes.js";
 import chatListRoutes from "./routes/chatListRoutes.js";
