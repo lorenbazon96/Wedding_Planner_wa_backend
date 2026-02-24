@@ -35,7 +35,7 @@ app.use(express.json({ limit: "10mb" }));
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://weddingplanner-me4jbk89g-lorens-projects-ae807b2d.vercel.app"
+    "https://weddingplanner-two.vercel.app/"
   ],
   credentials: true
 }));
